@@ -1,0 +1,1 @@
+from comparativeExtraction.comparative_keyword_extraction import *

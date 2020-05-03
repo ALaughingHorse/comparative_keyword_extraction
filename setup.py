@@ -14,7 +14,7 @@ setup(
   author = 'Xiao Ma',                   # Type in your name
   author_email = 'Marshalma0923@gmail.com',      # Type in your E-Mail
   url = 'https://github.com/ALaughingHorse/comparative_keyword_extraction',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_010.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_001.tar.gz',    # I explain this later on
   keywords = ['NLP'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
           'tokenizer_xm',
@@ -30,7 +30,7 @@ setup(
     'Intended Audience :: Developers',      # Define that your audience are developers
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',   # Again, pick a license
-    'Programming Language :: Python :: 3',      #Specify which pyhton versions that you want to support
+    'Programming Language :: Python :: 3',      #Specify which python versions that you want to support
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',

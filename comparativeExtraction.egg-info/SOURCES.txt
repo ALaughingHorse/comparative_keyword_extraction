@@ -1,0 +1,10 @@
+README.md
+setup.cfg
+setup.py
+comparativeExtraction/__init__.py
+comparativeExtraction/comparative_keyword_extraction.py
+comparativeExtraction.egg-info/PKG-INFO
+comparativeExtraction.egg-info/SOURCES.txt
+comparativeExtraction.egg-info/dependency_links.txt
+comparativeExtraction.egg-info/requires.txt
+comparativeExtraction.egg-info/top_level.txt
