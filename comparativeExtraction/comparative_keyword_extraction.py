@@ -23,8 +23,13 @@ all_stops.remove("no")
 
 class comparative_keyword_extraction:
     """
-    Takes in reviews with ratings. Outputs salient words that tells why people love/hate the product
-    ---Parameters
+    Takes in corpus with a binary label. Compare the document frequencies between the groups
+
+    ---Parameters needed for initialization
+    corpus: a list/numpy array of text.
+    labels: a list/numpy array of 1 and 0s.
+    stop_words: a list of arrays that contains stop words. Defaulted to use the list of STOPWORDS from the gensim.parsing.preprocssing module with "no" and "not" excluded.
+    addi_stops: a list of additional stopwords if needed. Defaulted to an empty list.
     """
     
     def __init__(self, corpus, labels, stop_words = all_stops, addi_stops = []):
@@ -35,22 +40,27 @@ class comparative_keyword_extraction:
         self.addi_stops = addi_stops
 
 
-    def get_simple_keywords(self,ngram_range,min_df = 5, max_df = 0.9, product_names = []):
+    def get_simple_keywords(self,ngram_range,min_df = 5, max_df = 0.9):
         """
-        product_names: a list of unique product names
+        Get frequency counts of terms from the corpus. 
+
+        ---Parameters
+        ngram_range: A tuple of range of n-grams to consider. e.g. (1,3) means consider unigrams to trigrams
+
+        min_df: minimal document frequency. The input parameter for Vectorizers under the sklearn.feature_extraction.text module. When entered a value below 1 (e.g. 0.1), remove n-grams that appear in with less than 10% of the corpus. When entered a value above 1 (e.g. 5), remove n-grams that appear in less than 5 of the documents.
+
+        max_df: maximal document frequency. Similar with min_df above.
         """
+        stop_words = self.stop_words + self.addi_stops
+
         # Build a wrapper for tokenizer
         def tokenizer(text):
-            tk = text_tokenizer_xm(text = text, lemma_flag = True, stem_flag = False,contractions=contractions)
+            tk = text_tokenizer_xm(text = text, lemma_flag = True, stem_flag = False,contractions=contractions,\
+            stopwords = stop_words)
             return tk.txt_pre_pros()
 
         # Get the simple word_count ranking
         ## adding product names as stop-words
-        product_names = list(product_names)
-        prod_names = " ".join(product_names)
-        stop_words = text_tokenizer_xm(prod_names,lemma_flag=True, stem_flag = False,contractions = contractions).txt_pre_pros()
-        stop_words += ['product']
-
         vec_count = CountVectorizer(ngram_range = ngram_range,tokenizer=tokenizer,min_df = min_df, max_df = max_df)
         vec_count_f = vec_count.fit(self.corpus)
 
@@ -116,7 +126,19 @@ class comparative_keyword_extraction:
     def get_distinguishing_terms(self,ngram_range = (1,3), min_df = 0.01, max_df = 0.90,top_n = 20,tagging = False):
         
         """
-        Get distinguishing terms based on term frequencies only without linear models
+        Get distinguishing terms based on term frequencies. 
+
+        ---Parameters
+
+        ngram_range: A tuple of range of n-grams to consider. e.g. (1,3) means consider unigrams to trigrams
+
+        min_df: minimal document frequency. The input parameter for Vectorizers under the sklearn.feature_extraction.text module. When entered a value below 1 (e.g. 0.1), remove n-grams that appear in with less than 10% of the corpus. When entered a value above 1 (e.g. 5), remove n-grams that appear in less than 5 of the documents.
+
+        max_df: maximal document frequency. Similar with min_df above.
+
+        top_n: limit the number of keywords to display
+
+        tagging: a flag indicating whether to perform part-of-speech tagging on the keywords 
         """
         # a dataframe of all the reviews
         df = pd.DataFrame({"review_text":self.corpus,"labels":self.labels})
