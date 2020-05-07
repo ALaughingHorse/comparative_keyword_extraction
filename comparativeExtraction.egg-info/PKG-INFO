@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: comparativeExtraction
-Version: 0.0.2
+Version: 0.0.3
 Summary: keyword extraction
 Home-page: https://github.com/ALaughingHorse/comparative_keyword_extraction
 Author: Xiao Ma
 Author-email: Marshalma0923@gmail.com
 License: MIT
-Download-URL: https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_002.tar.gz
+Download-URL: https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_003.tar.gz
 Description: # comparative_keyword_extraction
 Keywords: NLP
 Platform: UNKNOWN
