@@ -6,7 +6,7 @@ This module helps you extract key terms and topics from corpus using a comparati
 ## Installation
 
 ```
-from comparativeExtraction import *
+pip install --upgrade comparativeExtraction
 ```
 
 ## Usage
@@ -43,7 +43,9 @@ data.columns
 
 Here we are using online Amazon reviews for Nintendo Switch to illustrate the usages of the module. 
 
-Notice that we created a "label" which is a binary variable indicating whether a user give a less than or equal to 3 stars to this product. Our goal is to extract keywords that tells us why do people give <=3 stars vs 4 or 5 star ratings.
+The module requires a corpus and a set of binary labels as inputs. The labels should be created depending on what type of questions are we trying to answer. The set of labels should be of the same length as the corpus.
+
+Here, let's assume that we want to know why people dislike this product and find relevant keywords. To answer this question, we created the label to be a binary variable indicating whether a reviewer gives a 3 star or less. 
 
 ### Initialize the module with the review corpus and labels
 
