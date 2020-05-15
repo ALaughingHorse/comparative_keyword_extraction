@@ -193,18 +193,16 @@ class comparative_keyword_extraction:
 
         return output
 
-    def get_keywords_with_regression(self,random_seed = 923,ngram_range = (1,1),min_df = 0.01, max_df = 0.85,apply_smote = True,\
-        top_n = 25):
+    def get_keywords_with_regression(self,random_seed = 923,ngram_range = (1,1),min_df = 0.01, max_df = 0.85,apply_smote = True):
         
         """
         Get the keywords using LASSO's feature selection technique
         """
         # a dataframe of all the reviews
         df = pd.DataFrame({"review_text":self.corpus,"labels":self.labels})
-        
         # Get positive Examples
         pos_df = df.loc[df['labels'] == 1,:].reset_index(drop = True)
-        
+
         # Get negative examples
         neg_df = df.loc[df['labels'] == 0,:].reset_index(drop = True)
 
@@ -212,33 +210,25 @@ class comparative_keyword_extraction:
         pos_count = pos_df.shape[0]
         neg_count = neg_df.shape[0]
 
-        # Define the major vs minor dataframe
-        minor_df = pos_df
-
-        major_df = neg_df
-
-        if pos_count > neg_count:
-            minor_df = neg_df
-            major_df = pos_df
-            
-        if minor_df.shape[0] < 100:
+        if min([pos_count,neg_count]) < 100:
             print('Warning: Number of minority class less than 100')
-        
+
+        if min([pos_count,neg_count])/max([pos_count,neg_count]) < 0.333:
+            print("Class imbalance detected")
         # initialize the variables
         #salient_terms = dict()
 
         # removed the iteration
-        df_balanced = minor_df.append(major_df)
-        df_balanced.reset_index(drop = True, inplace = True)
-        target = df_balanced['labels']
+        df_combine = pos_df.append(neg_df)
+        df_combine.reset_index(drop = True, inplace = True)
+        target = df_combine['labels']
 
         # Fit the TFidf vectorizer
-        vec_count = TfidfVectorizer(ngram_range = ngram_range,tokenizer=self.tokenizer,min_df =min_df, max_df = max_df) 
-        vec_count_f = vec_count.fit(df_balanced['review_text'])
+        vec = TfidfVectorizer(ngram_range = ngram_range,tokenizer=self.tokenizer,min_df =min_df, max_df = max_df) 
+        vec_f = vec.fit(df_combine['review_text'])
 
-        # Create the triaining document-term matrix
-        vec_f = vec_count_f
-        train_dtm = vec_f.transform(df_balanced['review_text'])
+        # Create the traiining document-term matrix
+        train_dtm = vec_f.transform(df_combine['review_text'])
 
         if apply_smote:
              # Apply SMOTE to fix the class imbalance problem
@@ -267,46 +257,28 @@ class comparative_keyword_extraction:
         """
         Next find the DF for the terms 
         """
-        # Fit the Count vectorizer to the entire data
-        vec_count = CountVectorizer(ngram_range = ngram_range,tokenizer=self.tokenizer,min_df = min_df, max_df = max_df)
-        vec_count_f = vec_count.fit(df['review_text'].astype(str))
+        # Get the index for each of the terms with positive label
+        train_feature_tb = pd.DataFrame(train_dtm.toarray())
+        train_feature_tb.columns = vec_f.get_feature_names()
 
-        # Create the triaining document-term matrix
-        dtm = vec_count_f.transform(df['review_text'].astype(str))
-        # Construct dataframe
-        dtm_df = pd.DataFrame(dtm.toarray())
-        dtm_df.columns = vec_count_f.get_feature_names()
+        dtm_key_terms = train_feature_tb[list(key_terms_df['feature'])]
 
-        dtm_df_output = dtm_df.copy()
-        dtm_key_terms = dtm_df[list(key_terms_df['feature'])]
+        for term in dtm_key_terms:
+            dtm_key_terms[term] = [x != 0 for x in dtm_key_terms[term]]
+            # replace the vectors in the tf-idf table with a boolean vector
         
-        frequency_count = dtm_key_terms.sum(axis = 0)
-        document_frequency = dtm_key_terms.apply(lambda x: sum(x != 0),axis = 0)
-
-        # Create a dict to record the indexes
-        index_tb = dtm_key_terms.apply(lambda x: list(x != 0),axis = 0)
-        index_dict = {}
-        for term in dtm_key_terms.columns:
-            index_dict.update({term:np.array(index_tb[term].values)})
-        self.index_dict = index_dict
+        frequency_count = pd.DataFrame(dtm_key_terms.sum(axis = 0)).reset_index()
+        frequency_count.columns = ['feature','count']
+        frequency_count['prop'] = frequency_count['count']/dtm_key_terms.shape[0]
         
-        # Append columns 
-        key_terms_df['Document_Count'] = document_frequency.values
-        key_terms_df['Document_Percentage'] = key_terms_df['Document_Count']/len(df['review_text'])
-        
-        sorted_key_terms = key_terms_df.sort_values(["coef","Document_Count"],ascending = [False,False]).head(top_n)
+        # Join the two tables on features to get all the info needed
+        significant_terms = pd.merge(key_terms_df,frequency_count,how = "left",on = "feature")
         """
         As a last step, let's tag each term and separate into Nouns, Verbs and Adjs
         """
-        most_popular_tags = sorted_key_terms['feature'].apply(lambda x: self.get_popular_pos_tags(x,self.corpus[index_dict[x]]))
-        sorted_key_terms['PoS'] = most_popular_tags
-
-        self.sorted_key_terms = sorted_key_terms
-        
         class output:
-            sorted_key_terms_tb = sorted_key_terms
-            index_dictionary = index_dict
-            dtm_count_df = dtm_df_output
+            significant_terms_tb = significant_terms
+            dtm_boolean = dtm_key_terms
             #salient_terms_dict = salient_terms
            
         return output

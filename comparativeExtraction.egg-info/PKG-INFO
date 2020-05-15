@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: comparativeExtraction
-Version: 0.0.4
+Version: 0.0.5
 Summary: keyword extraction
 Home-page: https://github.com/ALaughingHorse/comparative_keyword_extraction
 Author: Xiao Ma
 Author-email: Marshalma0923@gmail.com
 License: MIT
-Download-URL: https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_004.tar.gz
+Download-URL: https://github.com/ALaughingHorse/comparative_keyword_extraction/archive/v_005.tar.gz
 Description: 
         ## Introduction
         
@@ -80,19 +80,6 @@ Description:
         
         
         <div>
-        <style scoped>
-            .dataframe tbody tr th:only-of-type {
-                vertical-align: middle;
-            }
-        
-            .dataframe tbody tr th {
-                vertical-align: top;
-            }
-        
-            .dataframe thead th {
-                text-align: right;
-            }
-        </style>
         <table border="1" class="dataframe">
           <thead>
             <tr style="text-align: right;">
@@ -212,19 +199,6 @@ Description:
         
         
         <div>
-        <style scoped>
-            .dataframe tbody tr th:only-of-type {
-                vertical-align: middle;
-            }
-        
-            .dataframe tbody tr th {
-                vertical-align: top;
-            }
-        
-            .dataframe thead th {
-                text-align: right;
-            }
-        </style>
         <table border="1" class="dataframe">
           <thead>
             <tr style="text-align: right;">
@@ -402,19 +376,6 @@ Description:
         
         
         <div>
-        <style scoped>
-            .dataframe tbody tr th:only-of-type {
-                vertical-align: middle;
-            }
-        
-            .dataframe tbody tr th {
-                vertical-align: top;
-            }
-        
-            .dataframe thead th {
-                text-align: right;
-            }
-        </style>
         <table border="1" class="dataframe">
           <thead>
             <tr style="text-align: right;">
@@ -533,19 +494,6 @@ Description:
         
         
         <div>
-        <style scoped>
-            .dataframe tbody tr th:only-of-type {
-                vertical-align: middle;
-            }
-        
-            .dataframe tbody tr th {
-                vertical-align: top;
-            }
-        
-            .dataframe thead th {
-                text-align: right;
-            }
-        </style>
         <table border="1" class="dataframe">
           <thead>
             <tr style="text-align: right;">
@@ -681,19 +629,6 @@ Description:
         
         
         <div>
-        <style scoped>
-            .dataframe tbody tr th:only-of-type {
-                vertical-align: middle;
-            }
-        
-            .dataframe tbody tr th {
-                vertical-align: top;
-            }
-        
-            .dataframe thead th {
-                text-align: right;
-            }
-        </style>
         <table border="1" class="dataframe">
           <thead>
             <tr style="text-align: right;">
