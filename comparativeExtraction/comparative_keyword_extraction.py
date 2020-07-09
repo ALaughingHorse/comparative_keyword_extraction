@@ -1,10 +1,10 @@
 """
-Last Modified: 05/03/2020
+Last Modified: 07/09/2020
 """
 import pandas as pd
 import numpy as np
 import nltk
-nltk.download("wordnet")
+#nltk.download("wordnet")
 from tokenizer_xm import text_tokenizer_xm, contractions
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split
