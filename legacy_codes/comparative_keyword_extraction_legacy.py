@@ -21,7 +21,7 @@ all_stops = list(STOPWORDS)
 all_stops.remove("not")
 all_stops.remove("no")
 
-class comparative_keyword_extraction:
+class ComparativeKeywordExtraction_legacy:
     """
     Takes in corpus with a binary label. Compare the document frequencies between the groups
 
@@ -32,13 +32,13 @@ class comparative_keyword_extraction:
     addi_stops: a list of additional stopwords if needed. Defaulted to an empty list.
     """
     
-    def __init__(self, corpus, labels, stop_words = all_stops, addi_stops = []):
+    def __init__(self, corpus, labels, stop_words=all_stops, addi_stops =[], dtm=None):
         
         self.corpus = corpus
         self.labels = labels
         self.stop_words = stop_words
         self.addi_stops = addi_stops
-
+        self.dtm = dtm
 
     def get_simple_keywords(self,ngram_range,min_df = 5, max_df = 0.9):
         """
@@ -140,6 +140,7 @@ class comparative_keyword_extraction:
 
         tagging: a flag indicating whether to perform part-of-speech tagging on the keywords 
         """
+        
         # a dataframe of all the reviews
         df = pd.DataFrame({"review_text":self.corpus,"labels":self.labels})
 
