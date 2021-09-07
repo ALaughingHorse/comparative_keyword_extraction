@@ -4,11 +4,11 @@ with open('./README.md') as f:
   long_description = f.read()
 
 setup(
-  name = 'comparativeExtraction',         # How you named your package folder (MyLib)
-  packages = ['comparativeExtraction'],   # Chose the same as "name"
+  name = 'compExtract',         # How you named your package folder (MyLib)
+  packages = ['compExtract'],   # Chose the same as "name"
   version = '0.0.7',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
-  description = 'keyword extraction',   # Give a short description about your library
+  description = 'Extract keywords via comparison of corpus',   # Give a short description about your library
   long_description=long_description,
   long_description_content_type='text/markdown', 
   author = 'Xiao Ma',                   # Type in your name
