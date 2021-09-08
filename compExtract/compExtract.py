@@ -1,10 +1,6 @@
-"""
-Last Modified: 07/09/2020
-"""
-from numpy.lib.mixins import _binary_method
 import pandas as pd
 import numpy as np
-from utility import xm_text_processor, get_binary_dttb
+from compExtract.utility import xm_text_processor, get_binary_dttb
 
 class ComparativeExtraction:
     """
